@@ -1,0 +1,240 @@
+#include <iostream>
+#include <cstdlib>
+
+using namespace std;
+
+struct node
+{
+    int data;
+    struct node *next;
+};
+
+struct node* newnode(int);
+int isempty(struct node*);
+
+struct node* insertFront(struct node *, int);
+struct node* insertBack(struct node*, int);
+void insertAfter(struct node*, int);
+
+
+struct node * deleteFront(struct node*);
+struct node* deleteBack(struct node*);
+void deleteAfter(struct node*);
+
+void DisplayList(struct node*);
+int LengthLL(struct node*);
+struct node *loadlist(struct node *, int arr[], int );
+void display(struct node *);
+struct node  *movebackwardlist (struct node *, struct node *);
+struct node  *moveforwardlist (struct node *, struct node *);
+
+
+int main(void)
+{
+	int n = 6;
+	int arr[n] = {1, 2, 3, 4, 5, 6};
+	struct node *header= NULL;
+	header = loadlist(header,arr, n);
+    display(header);
+    cout<<"after swap"<<endl;
+    movebackwardlist(header, header->next->next);
+    display(header);
+     cout<<"after swap"<<endl;
+    moveforwardlist(header,header->next);
+    display(header);
+
+    return 0;
+}
+
+
+int LengthLL(struct node* head)
+{
+    struct node *current = head;
+    int count = 0;
+
+    if(isempty(head))
+        return 0;
+
+    while(current != NULL)
+    {
+        count++;
+        current = current->next;
+    }
+
+    return count;
+}
+
+
+void DisplayList(struct node* head)
+{
+    struct node *current = head;
+
+    if(isempty(head))
+    {
+        cout<<"The list is empty"<<endl;
+        return;
+    }
+    while(current != NULL)
+    {
+        cout<<current->data<<" --> ";
+        current = current->next;
+    }
+    cout<<endl;
+}
+
+
+int isempty(struct node *header)
+{
+    if(header==NULL)
+        return 1; //TRUE
+    else
+        return 0; //FALSE
+}
+
+
+struct node* newnode(int d)
+{
+    struct node *temp;
+    temp=(struct node *) malloc(sizeof(node));
+    temp->data =d;
+    temp->next=NULL;
+    return temp;
+}
+
+
+struct node* insertFront(struct node* header, int d)
+{
+    struct node *temp;
+    temp=newnode(d);
+    temp->next =header;
+    header=temp;
+    return header;
+}
+
+
+void insertAfter(struct node* afterNode, int d)
+{
+    struct node *temp;
+    temp=newnode(d);
+    temp->next=afterNode->next;
+    afterNode->next=temp;
+}
+
+
+struct node* insertBack(struct node* header, int d)
+{
+    struct node *temp, *headertemp;
+    temp=newnode(d);
+
+    if(header==NULL)
+    {
+        header=temp;
+        return header;
+    }
+
+    headertemp=header;
+    while(headertemp->next!=NULL)
+        headertemp =headertemp->next;
+
+    headertemp->next=temp;
+    return header;
+}
+
+
+struct node * deleteFront(struct node *header)
+{
+    struct node *temp;
+
+    if(header==NULL)
+        return header;
+
+    temp=header;
+    header= header->next;
+    free(temp);
+
+    return header;
+}
+
+
+struct node* deleteBack(struct node *header)
+{
+    struct node *temp, *headertemp;
+    if(header==NULL)
+        return header;
+
+    headertemp=header;
+    while(headertemp->next->next!=NULL)
+        headertemp =headertemp->next;
+
+    temp=headertemp->next;
+    headertemp->next=NULL;
+    free(temp);
+
+    return header;
+}
+
+void display(struct node *header)
+{       
+    struct node *temp = header;
+    
+    if (header == NULL)
+        cout << "List is empty" << endl;
+
+    while (temp != NULL)
+    {
+        cout << " --> "<< temp->data<<"\t"; 
+        temp=temp->next;
+    }
+    cout << endl<<endl;
+}
+
+void deleteAfter(struct node *afterNode)
+{
+    struct node *temp;
+
+    if(afterNode->next==NULL || afterNode==NULL)
+        return;
+
+    temp =afterNode->next;
+    afterNode->next=temp->next;
+    free(temp);
+}
+
+struct node *loadlist(struct node *header, int arr[], int n)
+{
+	for( int x= 0; x < n; x++)
+	      header= insertBack(header, arr[x]);
+	            
+   return header;	      
+}
+
+struct node *movebackwardlist (struct node *head, struct node *after)
+{
+	while(head->next != after)
+	      head = head->next;
+	struct node *temp;
+	temp= after->next->next;
+	
+	head->next = after->next;
+	after->next = temp;
+	head->next->next = after;
+	
+	return head;      
+	      
+}
+
+struct node *moveforwardlist (struct node *head, struct node *before)
+{
+	while(head->next != before)
+	      head = head->next;
+	      
+	struct node *temp;
+	temp= before->next;
+	
+	head->next = temp;
+	before->next = temp->next;
+	temp->next = before;
+	
+	return head;      
+	      
+}

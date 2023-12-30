@@ -1,0 +1,51 @@
+#include<iostream>
+
+using namespace std;
+
+struct students{
+	
+	int id;
+	string name;
+	int year;
+};
+
+//function to print Structure (Pass by Pointer)
+
+void print(struct students *ps,int size)
+{
+		for(int i = 0 ; i<size; i++)
+		cout<<ps[i].id <<"\t"<<ps[i].name <<"\t"<<ps[i].year<<endl;
+		
+
+	
+}
+
+int main()
+{
+
+int size;
+cout<<"Enter Num of Students";
+cin>>size;
+
+
+    students s[size];
+   
+   //s=new students[size];
+  
+  for(int i = 0 ;i<size ; i++)
+  {
+  	cout<<"Enter Student "<<(i+1)<<" Details:\n";
+  	 cout<<" ID ";
+	  cin>>s[i].id;
+	  cout<<" Name ";
+	 cin>>s[i].name;
+	  cout<<" Year";
+	 cin>>s[i].year;
+  }
+ 
+  //send the array to user -define function using pointer
+  	print(s,size);
+  
+  
+
+}

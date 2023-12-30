@@ -1,0 +1,62 @@
+#include <iostream>
+#include <cstdlib>
+using namespace std;
+struct node
+{
+ int data;
+ struct node *next;
+};
+int is_empty( struct node *header)
+{
+	if(header==NULL)
+		return 1;
+else 
+return 0; 
+}
+
+void DisplayList(struct node *header)
+{       
+    struct node *temp = header;
+    
+    if (header == NULL)
+        cout << "List is empty" << endl;
+
+    while (temp != NULL)
+    {
+        cout << " --> "<< temp->data<<"\t"; 
+        temp=temp->next;
+    }
+    cout << endl;
+}
+
+int sizell(struct node *header)
+{
+	struct node *temp = header;
+	int count = 0;
+	
+	 if (header == NULL)
+        cout << "List is empty" << endl;
+
+    while (temp != NULL)
+    {
+        count++; 
+        temp=temp->next;
+    }
+    cout<<"size = "<<count;
+    return count;
+}
+
+int main(void)
+{
+	struct node *header;
+    header = (struct node *)malloc(sizeof(struct node));
+    header->data = 2;
+    header->next = (struct node *)malloc(sizeof(struct node));
+    header->next->data = 4;
+    header->next->next = (struct node *)malloc(sizeof(struct node));
+    header->next->next->data = 6;
+    header->next->next->next = NULL;
+    DisplayList(header);
+    sizell(header);
+
+}
